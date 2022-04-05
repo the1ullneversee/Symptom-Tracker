@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+
+    <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+    <div class="card-body text-center">
+        <h4 class="display-1">Symptom Tracker!</h4>
+        <p class="card-text">Track your symptoms</p>
+    </div>
+
+    {% for message in get_flashed_messages() %}
+        <div class="container text-center">
+            <div class="p-3 mb-2 bg-danger text-white">{{ message }}</div>
+        </div>
+        <br>
+    {% endfor %}
+    
+    {% block main %}{% endblock %}
+
+    <script src="{{ url_for('static', filename='jquery-3.3.1.slim.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+</body>
+
+</html>
