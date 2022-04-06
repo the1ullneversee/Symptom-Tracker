@@ -2,19 +2,22 @@ from datetime import datetime
 from time import strftime
 import json
 
-
-
 class symptom:
-    known_symptoms = []
+    
     def __init__(self,name,date,comments,mood):
         self.name = name
-        if not date:
+        self.date = date
+        if date == None:
             now = datetime.now()
             self.date = now
             self.day = now.strftime("%d/%m/%Y")
             self.time = now.strftime("%H:%M:%S")
-        else:
+        elif type(date) == str:
             self.date = datetime.strptime(date,"%d/%m/%Y %H:%M:%S")
+            self.day = self.date.strftime("%d/%m/%Y")
+            self.time = self.date.strftime("%H:%M")
+        elif type(date) == datetime:
+            self.date = date
             self.day = self.date.strftime("%d/%m/%Y")
             self.time = self.date.strftime("%H:%M")
         self.comments = comments
@@ -31,6 +34,9 @@ class symptom:
     
     def get_date(self):
         return self.date
+    
+    def get_date_str(self):
+        return self.date.strftime("%d/%m/%Y %H:%M:%S")
     
     def get_day(self):
         return self.day

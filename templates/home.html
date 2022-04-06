@@ -17,11 +17,11 @@
 
 {% block main %}
     <div class="container" margin="5,0,0,0">
-        {% if not symptoms|length %}
+        <!-- {% if not symptoms|length %}
         <h3 class="card-title">Add a symptom to start tracking!</h3>
         <h3 class="card-text">Your past symptoms will show here</h3>
         {% endif %}
-        <div class="card-body align-items-right">
+        <div class="card-body align-items-right"> -->
             
         </div>
             <div style="align-items:flex-start;">
@@ -63,7 +63,7 @@
                     <div class="mb-3 form-inline">
                         <select class="form-control" name="filter_symptomname" id="filter_symptomname">
                             <option selected>Select Symptom</option>
-                            {% for ks in known_symptoms %}
+                            {% for ks in dm.known_symptoms %}
                             <option value="{{ ks }}">{{ ks }}</option>
                             {% endfor %}
                         </select>
@@ -75,8 +75,8 @@
 
 
         <br>
-        {% for s_d in symptoms.keys() %}
-        <div class="card">
+        {% for s_d in dm.day_model.keys() %}
+        <div class="card" style="background-color: lightblue;">
             
             <div class="card-body">
                 <h4 class="card-title" style="color:cornflowerblue;">{{ s_d }}</h4>
@@ -88,20 +88,73 @@
                             <th scope="col">Note</th>
                             <th scope="col">Mood</th>
                         </tr>
-                        {% for symptom in symptoms[s_d] %}
+                        {% for symptom in dm.day_model[s_d]['symptoms'] %}
                         <tr class=".table-striped">
                             <th scope="row" style="font-weight: 400;">{{ symptom.get_time() }}</th>
                             <th scope="row" style="font-weight: 400;">{{ symptom.get_name() }}</th>
                             <th scope="row" style="font-weight: 400;">{{ symptom.get_comments() }}</th>
                             <th scope="row" style="font-weight: 400;">{{ symptom.get_mood() }}</th>
-    
-    
                         </tr>
                         {% endfor %}
                     </thead>
                 </table>
             </div>
+                {% if dm.day_key_current(s_d) %}
+                <div class="card-body">
+                    <div class="card" style="background-color:lightgray;">
+                        <img class="card-img-top" src="holder.js/100x180/" alt="">
+                        <h1 class="lead" style="margin-left: 5px;">Activities</h1>
+                        <div class="card-body">
+                            <div class="form-check form-check-inline">
+                                {% for act in dm.day_model[s_d]['activities'] %}
+                                <input style="margin-left: 5px;" type="checkbox" class="form-check-input" name="{{ act.get_name() }}" id="" value="checkedValue"
+                                    checked="{{ act.get_completed() }}">
+                                <label class="form-check-label" for="">
+                                    {{ act.get_name() }}
+                                </label>
+                                {% endfor %}
+                                <a class="btn btn-outline-primary btn-sm" style="margin-left: 10px;" href="{{ url_for('stracker.home') }}">New Activity</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card" style="background-color:lightgray; margin-top: 5px;">
+                        <img class="card-img-top" src="holder.js/100x180/" alt="">
+                        <h1 class="lead" style="margin-left: 5px;">Potential Irritants</h1>
+                        <div class="card-body">
+                            <div class="form-check form-check-inline">
+                                {% for act in dm.day_model[s_d]['activities'] %}
+                                <input style="margin-left: 5px;" type="checkbox" class="form-check-input" name="{{ act.get_name() }}" id="" value="checkedValue"
+                                    checked="{{ act.get_completed() }}">
+                                <label class="form-check-label" for="">
+                                    {{ act.get_name() }}
+                                </label>
+                                {% endfor %}
+                                <a class="btn btn-outline-primary btn-sm" style="margin-left: 10px;" href="{{ url_for('stracker.home') }}">New Irritant</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                {% else %}
+                <div class="card-body">
+                    <div class="card" style="background-color:lightgray;">
+                        <img class="card-img-top" src="holder.js/100x180/" alt="">
+                        <h1 class="lead" style="margin-left: 5px;">Activities</h1>
+                        <div class="card-body"></div>
+                        <div class="form-check form-check-inline">
+                            {% for act in dm.day_model[s_d]['activities'] %}
+                            <input style="margin-left: 5px;" type="checkbox" class="form-check-input" name="{{ act.get_name() }}" id="" value="checkedValue"
+                                checked="{{ act.get_completed() }}">
+                            <label class="form-check-label" for="">
+                                {{ act.get_name() }}
+                            </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
         </div>
+        <br>
         {% endfor %}
     
     </div>

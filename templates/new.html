@@ -27,7 +27,7 @@
                             <label for="s_name">Symptom Name</label>
                             <select class="form-control" name="s_name" id="s_name">
                                 <option selected>Select Symptom</option>
-                                {% for ks in known_symptoms %}
+                                {% for ks in dm.known_symptoms %}
                                 <option value="{{ ks }}">{{ ks }}</option>
                                 {% endfor %}
                             </select>
